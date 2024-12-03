@@ -15,9 +15,19 @@ import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 import EnrollmentRoutes from "./Kanbas/Enrollments/routes.js";
 import mongoose from "mongoose";
 
-const CONNECTION_STRING =
-  process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
-mongoose.connect(CONNECTION_STRING);
+mongoose
+  .connect(CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    ssl: true, // Explicitly enable SSL
+  })
+  .then(() => {
+    console.log("Connected to MongoDB!");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+  });
+
 const app = express();
 
 app.use(
